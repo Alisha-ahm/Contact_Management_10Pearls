@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: contact-management-system
+
+  datasource:
+    url: jdbc:sqlserver://${DB_HOST:localhost}:${DB_PORT:1433};databaseName=${DB_NAME:ContactManagementDb};encrypt=true;trustServerCertificate=true;
+    username: ${DB_USER:sa}
+    password: ${DB_PASSWORD:YourStrong!Passw0rd}
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    hikari:
+      pool-name: ContactHubHikariPool
+      maximum-pool-size: 15
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 20000
+
+  jpa:
+    database-platform: org.hibernate.dialect.SQLServerDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          batch_size: 25
+
+server:
+  port: ${SERVER_PORT:8080}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:ContactManagementEnterpriseSecretKeyForJwtSigningMustBeAtLeast32CharsLong2026}
+    expiration-ms: 86400000
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:5173}
+
+logging:
+  config: classpath:logback-spring.xml
